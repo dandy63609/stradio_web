@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Play, Pause } from 'lucide-react';
+import { Volume2, VolumeX } from 'lucide-react';
 
 export default function AudioVibePlayer({ isDarkMode }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -12,7 +12,6 @@ export default function AudioVibePlayer({ isDarkMode }) {
 
     audio.volume = 0.55;
 
-    // 1. Attempt immediate playback as soon as the user opens the web page
     const attemptPlay = () => {
       const promise = audio.play();
       if (promise !== undefined) {
@@ -21,24 +20,25 @@ export default function AudioVibePlayer({ isDarkMode }) {
             setIsPlaying(true);
             setAutoplayBlocked(false);
           })
-          .catch((err) => {
-            // Autoplay with sound was blocked by the browser's policy
+          .catch(() => {
             setAutoplayBlocked(true);
             setIsPlaying(false);
 
-            // Unlock immediately on the very first micro-interaction
             const unlockImmediately = () => {
-              audio.play().then(() => {
-                setIsPlaying(true);
-                setAutoplayBlocked(false);
-              }).catch(() => {});
+              audio
+                .play()
+                .then(() => {
+                  setIsPlaying(true);
+                  setAutoplayBlocked(false);
+                })
+                .catch(() => {});
 
-              ['pointerdown', 'touchstart', 'scroll', 'keydown', 'click'].forEach(evt => {
+              ['pointerdown', 'touchstart', 'scroll', 'keydown', 'click'].forEach((evt) => {
                 window.removeEventListener(evt, unlockImmediately);
               });
             };
 
-            ['pointerdown', 'touchstart', 'scroll', 'keydown', 'click'].forEach(evt => {
+            ['pointerdown', 'touchstart', 'scroll', 'keydown', 'click'].forEach((evt) => {
               window.addEventListener(evt, unlockImmediately, { once: true, passive: true });
             });
           });
@@ -59,80 +59,89 @@ export default function AudioVibePlayer({ isDarkMode }) {
       setIsPlaying(false);
     } else {
       audioRef.current.volume = 0.6;
-      audioRef.current.play()
+      audioRef.current
+        .play()
         .then(() => {
           setIsPlaying(true);
           setAutoplayBlocked(false);
         })
-        .catch(err => console.log("Audio play error:", err));
+        .catch(() => {});
     }
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
-      {/* Background audio element with autoPlay attribute */}
-      <audio
-        ref={audioRef}
-        src="/audio/vibe-track.m4a"
-        autoPlay
-        loop
-        preload="auto"
-      />
+    <div className="fixed bottom-24 right-4 sm:bottom-24 sm:right-6 lg:bottom-6 lg:right-8 z-40">
+      <audio ref={audioRef} src="/audio/vibe-track.m4a" autoPlay loop preload="auto" />
 
-      <div
+      <button
+        type="button"
         onClick={togglePlay}
-        className={`group flex items-center gap-3 px-4 py-2.5 rounded-full cursor-pointer transition-all duration-500 backdrop-blur-md shadow-2xl border select-none active:scale-95 ${
+        className={`group flex items-center gap-2.5 px-3.5 py-2 rounded-full cursor-pointer transition-all duration-500 backdrop-blur-md shadow-2xl border select-none active:scale-95 ${
           autoplayBlocked
             ? 'bg-gradient-to-r from-[#FF7A59] to-[#A995DB] text-white border-transparent animate-bounce shadow-[#FF7A59]/40'
             : isDarkMode
-              ? 'bg-[#191923]/95 border-white/15 text-white shadow-purple-950/40 hover:border-[#FF7A59]/50'
-              : 'bg-white/95 border-gray-200 text-[#191923] shadow-gray-400/30 hover:border-[#191923]'
+              ? 'bg-[#191923]/90 border-white/15 text-white shadow-purple-950/40 hover:border-[#FF7A59]/50'
+              : 'bg-white/90 border-black/10 text-[#191923] shadow-gray-400/25 hover:border-[#191923]/40'
         }`}
       >
         {/* Animated Soundwave bars */}
-        <div className="flex items-center gap-1 h-4 w-4 justify-center">
+        <div className="flex items-center gap-0.5 h-3.5 w-3.5 justify-center">
           <span
-            className={`w-1 rounded-full transition-all duration-300 ${
+            className={`w-0.5 rounded-full transition-all duration-300 ${
               isPlaying
-                ? autoplayBlocked ? 'bg-white animate-soundwave-1' : 'bg-[#FF7A59] animate-soundwave-1'
+                ? autoplayBlocked
+                  ? 'bg-white animate-soundwave-1'
+                  : 'bg-[#FF7A59] animate-soundwave-1'
                 : 'bg-gray-400 h-1.5'
             }`}
           />
           <span
-            className={`w-1 rounded-full transition-all duration-300 ${
+            className={`w-0.5 rounded-full transition-all duration-300 ${
               isPlaying
-                ? autoplayBlocked ? 'bg-white animate-soundwave-2' : 'bg-[#A995DB] animate-soundwave-2'
-                : 'bg-gray-400 h-3'
+                ? autoplayBlocked
+                  ? 'bg-white animate-soundwave-2'
+                  : 'bg-[#A995DB] animate-soundwave-2'
+                : 'bg-gray-400 h-2.5'
             }`}
           />
           <span
-            className={`w-1 rounded-full transition-all duration-300 ${
+            className={`w-0.5 rounded-full transition-all duration-300 ${
               isPlaying
-                ? autoplayBlocked ? 'bg-white animate-soundwave-3' : 'bg-[#FF7A59] animate-soundwave-3'
+                ? autoplayBlocked
+                  ? 'bg-white animate-soundwave-3'
+                  : 'bg-[#FF7A59] animate-soundwave-3'
                 : 'bg-gray-400 h-1.5'
             }`}
           />
         </div>
 
         {/* Track Label */}
-        <div className="flex flex-col">
-          <span className="text-xs font-semibold tracking-wide">
-            {autoplayBlocked ? '▶ Tap to Play Vibe' : isPlaying ? 'STRADIO Vibe On' : 'Stride Vibe Muted'}
+        <div className="flex flex-col text-left">
+          <span className="text-[11px] font-semibold tracking-wide leading-tight">
+            {autoplayBlocked ? '▶ Tap for Vibe' : isPlaying ? 'STRADIO Vibe' : 'Vibe Muted'}
           </span>
-          <span className={`text-[10px] font-medium ${autoplayBlocked ? 'text-white/80' : 'text-gray-400'}`}>
-            165 BPM Rhythm
+          <span
+            className={`text-[9px] font-medium leading-tight ${
+              autoplayBlocked ? 'text-white/80' : 'text-gray-400'
+            }`}
+          >
+            165 BPM
           </span>
         </div>
 
         {/* Icon */}
-        <div className={`p-1.5 rounded-full ${autoplayBlocked ? 'bg-white/20' : isDarkMode ? 'bg-white/10' : 'bg-gray-100'}`}>
+        <div
+          className={`p-1 rounded-full ${
+            autoplayBlocked ? 'bg-white/20' : isDarkMode ? 'bg-white/10' : 'bg-black/5'
+          }`}
+        >
           {isPlaying ? (
-            <Volume2 size={13} className={autoplayBlocked ? 'text-white' : 'text-[#FF7A59]'} />
+            <Volume2 size={12} className={autoplayBlocked ? 'text-white' : 'text-[#FF7A59]'} />
           ) : (
-            <VolumeX size={13} className={autoplayBlocked ? 'text-white' : 'text-gray-400'} />
+            <VolumeX size={12} className={autoplayBlocked ? 'text-white' : 'text-gray-400'} />
           )}
         </div>
-      </div>
+      </button>
     </div>
   );
 }

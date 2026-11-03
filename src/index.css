@@ -16,28 +16,26 @@
   --animate-soundwave-1: soundWave 1.2s ease-in-out infinite alternate;
   --animate-soundwave-2: soundWave 0.9s ease-in-out infinite alternate 0.2s;
   --animate-soundwave-3: soundWave 1.5s ease-in-out infinite alternate 0.4s;
-  --animate-float-slow: float 6s ease-in-out infinite;
 
   @keyframes auraPulse {
     0%, 100% {
-      box-shadow: 0 0 25px -3px rgba(255, 122, 89, 0.5), 0 0 50px -5px rgba(169, 149, 219, 0.4);
+      box-shadow: 0 0 25px -3px rgba(255, 122, 89, 0.55), 0 0 50px -5px rgba(169, 149, 219, 0.45);
       border-color: #FF7A59;
     }
     50% {
-      box-shadow: 0 0 40px 4px rgba(169, 149, 219, 0.6), 0 0 65px 8px rgba(255, 122, 89, 0.4);
+      box-shadow: 0 0 40px 4px rgba(169, 149, 219, 0.65), 0 0 65px 8px rgba(255, 122, 89, 0.45);
       border-color: #A995DB;
     }
   }
 
   @keyframes soundWave {
-    0% { height: 20%; }
+    0% { height: 22%; }
     100% { height: 100%; }
   }
+}
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
+:root {
+  --t: 0;
 }
 
 html {
@@ -50,6 +48,63 @@ body {
   user-select: none;
   -webkit-user-select: none;
   touch-action: pan-y;
+  background-color: rgb(
+    calc(245 + (25 - 245) * var(--t, 0)),
+    calc(240 + (25 - 240) * var(--t, 0)),
+    calc(235 + (35 - 235) * var(--t, 0))
+  );
+}
+
+/* Continuous scroll-driven theme classes (--t: 0 Ivory -> 1 Midnight) */
+.theme-bg {
+  background-color: rgb(
+    calc(245 + (25 - 245) * var(--t, 0)),
+    calc(240 + (25 - 240) * var(--t, 0)),
+    calc(235 + (35 - 235) * var(--t, 0))
+  );
+}
+
+.theme-fg {
+  color: rgb(
+    calc(25 + (255 - 25) * var(--t, 0)),
+    calc(25 + (255 - 25) * var(--t, 0)),
+    calc(35 + (255 - 35) * var(--t, 0))
+  );
+}
+
+.theme-logo {
+  background: linear-gradient(135deg, #FF7A59, #A995DB);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(169, 149, 219, calc(0.18 + 0.32 * var(--t, 0)));
+}
+
+.theme-btn {
+  background-color: rgba(
+    calc(25 + (255 - 25) * var(--t, 0)),
+    calc(25 + (255 - 25) * var(--t, 0)),
+    calc(35 + (255 - 35) * var(--t, 0)),
+    calc(1 - 0.88 * var(--t, 0))
+  );
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, calc(0.24 * var(--t, 0)));
+  backdrop-filter: blur(10px);
+}
+
+/* Portrait runner framing:
+   - Mobile portrait: fills height cleanly, shifted slightly right when needed so upper-left text has breathing room
+   - Desktop widescreen: full viewport height (100svh), centered between Left & Right editorial columns */
+.runner-video {
+  height: 100svh;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+}
+
+@media (max-width: 640px) {
+  .runner-video {
+    height: 94svh;
+    top: 3svh;
+  }
 }
 
 ::-webkit-scrollbar {

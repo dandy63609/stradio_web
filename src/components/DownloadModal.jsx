@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Download, ShieldAlert, CheckCircle2, ArrowRight, MessageCircle } from 'lucide-react';
+import { X, Download, ShieldAlert, MessageCircle } from 'lucide-react';
 
 export default function DownloadModal({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -14,8 +14,11 @@ export default function DownloadModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div 
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
         className="relative w-full max-w-lg p-6 md:p-8 rounded-3xl bg-[#191923] border border-white/10 text-white shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
@@ -25,7 +28,7 @@ export default function DownloadModal({ isOpen, onClose }) {
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+          className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
         >
           <X size={18} />
         </button>
@@ -44,7 +47,7 @@ export default function DownloadModal({ isOpen, onClose }) {
         {/* Direct Download Button */}
         <button
           onClick={triggerDownload}
-          className="w-full py-3.5 px-6 rounded-2xl font-display font-bold text-sm tracking-wide bg-gradient-to-r from-[#FF7A59] to-[#A995DB] text-white flex items-center justify-center gap-2 shadow-lg hover:shadow-[#FF7A59]/30 hover:scale-[1.02] active:scale-98 transition-all mb-6"
+          className="w-full py-3.5 px-6 rounded-2xl font-display font-bold text-sm tracking-wide bg-gradient-to-r from-[#FF7A59] to-[#A995DB] text-white flex items-center justify-center gap-2 shadow-lg hover:shadow-[#FF7A59]/30 hover:scale-[1.02] active:scale-98 transition-all mb-6 cursor-pointer"
         >
           <Download size={18} />
           <span>Start APK Download (Free)</span>
@@ -65,7 +68,8 @@ export default function DownloadModal({ isOpen, onClose }) {
                 1
               </span>
               <p>
-                When Chrome shows <strong className="text-white">"File might be harmful"</strong>, tap <strong className="text-[#FF7A59]">"Download anyway"</strong>.
+                When Chrome shows <strong className="text-white">"File might be harmful"</strong>, tap{' '}
+                <strong className="text-[#FF7A59]">"Download anyway"</strong>.
               </p>
             </div>
 
@@ -74,7 +78,7 @@ export default function DownloadModal({ isOpen, onClose }) {
                 2
               </span>
               <p>
-                Open the downloaded APK $\rightarrow$ Tap <strong className="text-white">"Settings"</strong> when security prompt appears.
+                Open the downloaded APK → Tap <strong className="text-white">"Settings"</strong> when the security prompt appears.
               </p>
             </div>
 
@@ -83,7 +87,8 @@ export default function DownloadModal({ isOpen, onClose }) {
                 3
               </span>
               <p>
-                Toggle <strong className="text-white">"Allow from this source"</strong> $\rightarrow$ Return and tap <strong className="text-[#A995DB]">"Install"</strong>.
+                Toggle <strong className="text-white">"Allow from this source"</strong> → Return and tap{' '}
+                <strong className="text-[#A995DB]">"Install"</strong>.
               </p>
             </div>
           </div>

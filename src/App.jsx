@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Lenis from 'lenis';
 import Navbar from './components/Navbar';
 import HeroRunway from './components/HeroRunway';
-import InteractiveBeatpad from './components/InteractiveBeatpad';
-import Features from './components/Features';
-import Footer from './components/Footer';
 import AudioVibePlayer from './components/AudioVibePlayer';
 import DownloadModal from './components/DownloadModal';
 
@@ -13,57 +10,44 @@ export default function App() {
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
 
   useEffect(() => {
-    // Initialize Lenis smooth scroll optimized for 60fps on Android Chrome & Desktop
+    // Lenis smooth inertia scroll for the whole page (Android Chrome + desktop)
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      touchMultiplier: 1.8,
+      touchMultiplier: 1.6,
     });
 
+    let rafId;
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
-
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-[#191923]' : 'bg-[#F5F0EB]'}`}>
-      {/* Dynamic Header */}
-      <Navbar
-        isDarkMode={isDarkMode}
-        onOpenDownload={() => setIsDownloadModalOpen(true)}
-      />
+    <div className="min-h-screen theme-bg">
+      {/* Nav: logo + Get the App, colours follow the scroll theme (--t) */}
+      <Navbar onOpenDownload={() => setIsDownloadModalOpen(true)} />
 
-      {/* Main Experience: Sticky Light-to-Dark Transformation Runway */}
+      {/* One-page experience: runner transformation, ends on the dark CTA screen */}
       <HeroRunway
         onOpenDownload={() => setIsDownloadModalOpen(true)}
         onThemeChange={setIsDarkMode}
       />
 
-      {/* Interactive Web Audio Beatpad Demo */}
-      <InteractiveBeatpad />
-
-      {/* Sensor Algorithm Science */}
-      <Features />
-
-      {/* Footer */}
-      <Footer
-        onOpenDownload={() => setIsDownloadModalOpen(true)}
-      />
-
-      {/* Floating Background Audio Player with Waveform */}
+      {/* Floating background music pill with waveform */}
       <AudioVibePlayer isDarkMode={isDarkMode} />
 
-      {/* Direct APK Download Modal & Android Guide */}
+      {/* Direct APK download + Android install guide */}
       <DownloadModal
         isOpen={isDownloadModalOpen}
         onClose={() => setIsDownloadModalOpen(false)}
