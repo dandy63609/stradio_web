@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 
-export default function AudioVibePlayer({ isDarkMode }) {
+const AUDIO_UNLOCK_EVENTS = ['pointerdown', 'touchstart', 'keydown', 'click'];
+
+export default function AudioVibePlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -16,29 +17,22 @@ export default function AudioVibePlayer({ isDarkMode }) {
       const promise = audio.play();
       if (promise !== undefined) {
         promise
-          .then(() => {
-            setIsPlaying(true);
-            setAutoplayBlocked(false);
-          })
+          .then(() => setIsPlaying(true))
           .catch(() => {
-            setAutoplayBlocked(true);
             setIsPlaying(false);
 
             const unlockImmediately = () => {
               audio
                 .play()
-                .then(() => {
-                  setIsPlaying(true);
-                  setAutoplayBlocked(false);
-                })
+                .then(() => setIsPlaying(true))
                 .catch(() => {});
 
-              ['pointerdown', 'touchstart', 'scroll', 'keydown', 'click'].forEach((evt) => {
+              AUDIO_UNLOCK_EVENTS.forEach((evt) => {
                 window.removeEventListener(evt, unlockImmediately);
               });
             };
 
-            ['pointerdown', 'touchstart', 'scroll', 'keydown', 'click'].forEach((evt) => {
+            AUDIO_UNLOCK_EVENTS.forEach((evt) => {
               window.addEventListener(evt, unlockImmediately, { once: true, passive: true });
             });
           });
@@ -52,96 +46,85 @@ export default function AudioVibePlayer({ isDarkMode }) {
     };
   }, []);
 
-  const togglePlay = () => {
-    if (!audioRef.current) return;
+  const togglePlay = (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    const audio = audioRef.current;
+    if (!audio) return;
+
     if (isPlaying) {
-      audioRef.current.pause();
+      audio.pause();
       setIsPlaying(false);
     } else {
-      audioRef.current.volume = 0.6;
-      audioRef.current
+      audio.volume = 0.6;
+      audio
         .play()
-        .then(() => {
-          setIsPlaying(true);
-          setAutoplayBlocked(false);
-        })
+        .then(() => setIsPlaying(true))
         .catch(() => {});
     }
   };
 
   return (
-    <div className="fixed bottom-24 right-4 sm:bottom-24 sm:right-6 lg:bottom-6 lg:right-8 z-40">
-      <audio ref={audioRef} src="/audio/vibe-track.m4a" autoPlay loop preload="auto" />
+    <>
+      <audio ref={audioRef} src="/audio/full-beat.wav" autoPlay loop preload="auto" />
 
-      <button
-        type="button"
-        onClick={togglePlay}
-        className={`group flex items-center gap-2.5 px-3.5 py-2 rounded-full cursor-pointer transition-all duration-500 backdrop-blur-md shadow-2xl border select-none active:scale-95 ${
-          autoplayBlocked
-            ? 'bg-gradient-to-r from-[#FF7A59] to-[#A995DB] text-white border-transparent animate-bounce shadow-[#FF7A59]/40'
-            : isDarkMode
-              ? 'bg-[#191923]/90 border-white/15 text-white shadow-purple-950/40 hover:border-[#FF7A59]/50'
-              : 'bg-white/90 border-black/10 text-[#191923] shadow-gray-400/25 hover:border-[#191923]/40'
+      {/* Desktop Audio Pill (Screens >= 640px) */}
+      <div className="hidden sm:block fixed bottom-6 right-8 z-40">
+        <DesktopAudioButton isPlaying={isPlaying} onToggle={togglePlay} />
+      </div>
+
+      {/* Mobile Audio Button (Screens < 640px) */}
+      <div className="sm:hidden fixed bottom-3 right-3 z-40">
+        <MobileAudioButton isPlaying={isPlaying} onToggle={togglePlay} />
+      </div>
+    </>
+  );
+}
+
+function DesktopAudioButton({ isPlaying, onToggle }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className="group flex items-center gap-2 h-[30px] sm:h-[36px] px-3 sm:px-4 rounded-full cursor-pointer transition-all duration-300 backdrop-blur-md shadow-md border border-[#BCBDB4]/50 select-none active:scale-95 bg-[#F5F5F7]/90 text-[#15151F] hover:bg-white"
+    >
+      <span
+        className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-transform duration-300 ${
+          isPlaying ? 'bg-[#BA617B] scale-110' : 'bg-[#BCBDB4]'
         }`}
-      >
-        {/* Animated Soundwave bars */}
-        <div className="flex items-center gap-0.5 h-3.5 w-3.5 justify-center">
-          <span
-            className={`w-0.5 rounded-full transition-all duration-300 ${
-              isPlaying
-                ? autoplayBlocked
-                  ? 'bg-white animate-soundwave-1'
-                  : 'bg-[#FF7A59] animate-soundwave-1'
-                : 'bg-gray-400 h-1.5'
-            }`}
-          />
-          <span
-            className={`w-0.5 rounded-full transition-all duration-300 ${
-              isPlaying
-                ? autoplayBlocked
-                  ? 'bg-white animate-soundwave-2'
-                  : 'bg-[#A995DB] animate-soundwave-2'
-                : 'bg-gray-400 h-2.5'
-            }`}
-          />
-          <span
-            className={`w-0.5 rounded-full transition-all duration-300 ${
-              isPlaying
-                ? autoplayBlocked
-                  ? 'bg-white animate-soundwave-3'
-                  : 'bg-[#FF7A59] animate-soundwave-3'
-                : 'bg-gray-400 h-1.5'
-            }`}
-          />
-        </div>
+      />
+      <span className="font-sans font-semibold text-[10px] sm:text-[11px] tracking-[0.02em] leading-none text-[#15151F]">
+        {isPlaying ? 'STRADIO Vibe · 165 BPM' : 'Tap for Vibe · 165 BPM'}
+      </span>
+      {isPlaying ? (
+        <Volume2 size={12} className="text-[#BA617B]" />
+      ) : (
+        <VolumeX size={12} className="text-[#8652A4]" />
+      )}
+    </button>
+  );
+}
 
-        {/* Track Label */}
-        <div className="flex flex-col text-left">
-          <span className="text-[11px] font-semibold tracking-wide leading-tight">
-            {autoplayBlocked ? '▶ Tap for Vibe' : isPlaying ? 'STRADIO Vibe' : 'Vibe Muted'}
-          </span>
-          <span
-            className={`text-[9px] font-medium leading-tight ${
-              autoplayBlocked ? 'text-white/80' : 'text-gray-400'
-            }`}
-          >
-            165 BPM
-          </span>
-        </div>
-
-        {/* Icon */}
-        <div
-          className={`p-1 rounded-full ${
-            autoplayBlocked ? 'bg-white/20' : isDarkMode ? 'bg-white/10' : 'bg-black/5'
-          }`}
-        >
-          {isPlaying ? (
-            <Volume2 size={12} className={autoplayBlocked ? 'text-white' : 'text-[#FF7A59]'} />
-          ) : (
-            <VolumeX size={12} className={autoplayBlocked ? 'text-white' : 'text-gray-400'} />
-          )}
-        </div>
-      </button>
-    </div>
+function MobileAudioButton({ isPlaying, onToggle }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-label={isPlaying ? 'Mute music' : 'Play music'}
+      className="flex items-center gap-1.5 h-[30px] px-2.5 rounded-full cursor-pointer transition-all duration-300 backdrop-blur-md shadow-lg border border-[#BCBDB4]/60 active:scale-95 bg-[#F5F5F7]/95 text-[#15151F]"
+    >
+      <span
+        className={`w-1.5 h-1.5 rounded-full transition-transform ${
+          isPlaying ? 'bg-[#BA617B] animate-pulse scale-110' : 'bg-[#BCBDB4]'
+        }`}
+      />
+      {isPlaying ? (
+        <Volume2 size={13} className="text-[#BA617B]" />
+      ) : (
+        <VolumeX size={13} className="text-[#8652A4]" />
+      )}
+      <span className="font-sans font-semibold text-[9px] tracking-wide text-[#15151F]">
+        {isPlaying ? '165 BPM' : 'VIBE'}
+      </span>
+    </button>
   );
 }

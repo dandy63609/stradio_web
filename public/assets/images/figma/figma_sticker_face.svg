@@ -1,0 +1,15 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="61" height="63" viewBox="0 0 61 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Sticker face">
+<path d="M61 31.5C61 48.897 47.3447 63 30.5 63C13.6553 63 0 48.897 0 31.5C0 14.103 13.6553 0 30.5 0C47.3447 0 61 14.103 61 31.5Z" fill="url(#paint0_linear_0_7)"/>
+<mask id="stroke0_0_7" fill="white">
+<path d="M61 31.5C61 48.897 47.3447 63 30.5 63C13.6553 63 0 48.897 0 31.5C0 14.103 13.6553 0 30.5 0C47.3447 0 61 14.103 61 31.5Z"/>
+</mask>
+<path d="M61 31.5C61 48.897 47.3447 63 30.5 63C13.6553 63 0 48.897 0 31.5C0 14.103 13.6553 0 30.5 0C47.3447 0 61 14.103 61 31.5Z" stroke-width="2" stroke="#E9A2A1" mask="url(#stroke0_0_7)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_7" x1="0" y1="0" x2="0" y2="63" gradientUnits="userSpaceOnUse">
+<stop stop-color="#814B8B"/>
+<stop offset="1" stop-color="#382653"/>
+</linearGradient>
+</defs>
+</svg>

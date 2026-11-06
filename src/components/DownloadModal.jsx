@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Download, ShieldAlert, MessageCircle } from 'lucide-react';
+import { X, Download, ShieldAlert } from 'lucide-react';
 
 export default function DownloadModal({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -15,98 +15,99 @@ export default function DownloadModal({ isOpen, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#15151F]/40 backdrop-blur-md transition-all duration-300"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg p-6 md:p-8 rounded-3xl bg-[#191923] border border-white/10 text-white shadow-2xl overflow-hidden"
+        className="relative w-full max-w-lg p-6 sm:p-8 rounded-[28px] bg-[#F5F5F7]/95 backdrop-blur-2xl border border-[#BCBDB4]/50 text-[#15151F] shadow-[0_24px_64px_rgba(0,0,0,0.18)] overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Glow ambient accent */}
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-48 h-48 rounded-full bg-gradient-to-br from-[#FF7A59]/30 to-[#A995DB]/30 blur-3xl pointer-events-none" />
-
-        {/* Close button */}
+        {/* Close Button */}
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
+          className="absolute top-6 right-6 p-2 rounded-full bg-black/5 hover:bg-black/10 text-[#15151F]/60 hover:text-[#15151F] transition-colors cursor-pointer"
+          aria-label="Close modal"
         >
           <X size={18} />
         </button>
 
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FF7A59] to-[#A995DB] flex items-center justify-center font-display font-black text-2xl text-white shadow-lg">
-            S
-          </div>
+        {/* 3D Sculpted S-Logo + Brand Header */}
+        <div className="flex items-center gap-4 mb-6">
+          <img
+            src="/assets/images/brand/s-logo-3d.png"
+            alt="STRADIO 3D S-Logo"
+            className="w-[44px] h-[54px] object-contain shrink-0 drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+          />
           <div>
-            <h3 className="font-display font-bold text-xl text-white">Download STRADIO MVP</h3>
-            <p className="text-xs text-gray-400">Android APK · v0.1.0-alpha · ~28 MB</p>
+            <div className="flex items-baseline gap-2">
+              <span className="font-wordmark font-black italic text-2xl tracking-tight text-[#15151F]">
+                STRADIO
+              </span>
+              <span className="font-sans font-semibold text-[10px] tracking-[0.2em] uppercase text-[#BA617B]">
+                RUN THE VIBE
+              </span>
+            </div>
+            <p className="font-sans text-xs text-[#171918]/70 mt-0.5">
+              Android APK · v0.1.0-alpha · Direct Build
+            </p>
           </div>
         </div>
 
-        {/* Direct Download Button */}
+        {/* Official Brand Gradient Direct Download Button */}
         <button
+          type="button"
           onClick={triggerDownload}
-          className="w-full py-3.5 px-6 rounded-2xl font-display font-bold text-sm tracking-wide bg-gradient-to-r from-[#FF7A59] to-[#A995DB] text-white flex items-center justify-center gap-2 shadow-lg hover:shadow-[#FF7A59]/30 hover:scale-[1.02] active:scale-98 transition-all mb-6 cursor-pointer"
+          className="stradio-gradient-pill w-full py-3.5 px-6 rounded-[100px] font-sans font-semibold text-sm tracking-[0.01em] text-[#F5F5F7] flex items-center justify-center gap-2.5 mb-6 cursor-pointer shadow-md hover:shadow-lg"
         >
-          <Download size={18} />
-          <span>Start APK Download (Free)</span>
+          <Download size={18} strokeWidth={2.4} />
+          <span>Download STRADIO APK (Free)</span>
         </button>
 
-        {/* Android Install Walkthrough */}
-        <div className="bg-white/5 rounded-2xl p-4 border border-white/10 mb-6">
+        {/* Android Sideloading Walkthrough */}
+        <div className="bg-white/80 rounded-2xl p-4 sm:p-5 border border-[#BCBDB4]/40 mb-6">
           <div className="flex items-center gap-2 mb-3">
-            <ShieldAlert size={16} className="text-[#FF7A59]" />
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-300">
+            <ShieldAlert size={16} className="text-[#BA617B]" />
+            <h4 className="font-sans text-xs font-bold uppercase tracking-[0.12em] text-[#15151F]/85">
               Android Sideloading Guide
             </h4>
           </div>
 
-          <div className="space-y-3 text-xs text-gray-300">
+          <div className="space-y-3 font-sans text-xs text-[#171918]/80">
             <div className="flex items-start gap-3">
-              <span className="w-5 h-5 rounded-full bg-white/10 text-[#FF7A59] flex items-center justify-center font-bold text-[11px] shrink-0 mt-0.5">
+              <span className="w-5 h-5 rounded-full bg-[#BA617B]/15 text-[#BA617B] flex items-center justify-center font-bold text-[11px] shrink-0 mt-0.5">
                 1
               </span>
               <p>
-                When Chrome shows <strong className="text-white">"File might be harmful"</strong>, tap{' '}
-                <strong className="text-[#FF7A59]">"Download anyway"</strong>.
+                When Chrome shows <strong className="text-[#15151F]">"File might be harmful"</strong>, tap{' '}
+                <strong className="text-[#BA617B]">"Download anyway"</strong>.
               </p>
             </div>
 
             <div className="flex items-start gap-3">
-              <span className="w-5 h-5 rounded-full bg-white/10 text-[#FF7A59] flex items-center justify-center font-bold text-[11px] shrink-0 mt-0.5">
+              <span className="w-5 h-5 rounded-full bg-[#BA617B]/15 text-[#BA617B] flex items-center justify-center font-bold text-[11px] shrink-0 mt-0.5">
                 2
               </span>
               <p>
-                Open the downloaded APK → Tap <strong className="text-white">"Settings"</strong> when the security prompt appears.
+                Open the downloaded APK → Tap <strong className="text-[#15151F]">"Settings"</strong> when the security prompt appears.
               </p>
             </div>
 
             <div className="flex items-start gap-3">
-              <span className="w-5 h-5 rounded-full bg-white/10 text-[#FF7A59] flex items-center justify-center font-bold text-[11px] shrink-0 mt-0.5">
+              <span className="w-5 h-5 rounded-full bg-[#BA617B]/15 text-[#BA617B] flex items-center justify-center font-bold text-[11px] shrink-0 mt-0.5">
                 3
               </span>
               <p>
-                Toggle <strong className="text-white">"Allow from this source"</strong> → Return and tap{' '}
-                <strong className="text-[#A995DB]">"Install"</strong>.
+                Toggle on <strong className="text-[#15151F]">"Allow from this source"</strong> → Tap <strong className="text-[#BA617B]">"Install"</strong>.
               </p>
             </div>
           </div>
         </div>
 
-        {/* WhatsApp Support / Feedback */}
-        <div className="flex items-center justify-between text-xs text-gray-400 pt-2 border-t border-white/10">
-          <span>Testing in Bekasi / Semarang?</span>
-          <a
-            href="https://wa.me/?text=Hi%20Dandy%2C%20testing%20STRADIO%20App"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-[#A995DB] hover:text-white transition-colors"
-          >
-            <MessageCircle size={14} />
-            <span>Chat with Lead (Dandy)</span>
-          </a>
-        </div>
+        {/* Modal Footer Note */}
+        <p className="font-sans text-[11px] text-center text-[#171918]/50">
+          Requires Android 10+ with accelerometer and step sensor hardware.
+        </p>
       </div>
     </div>
   );

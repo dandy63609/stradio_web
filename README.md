@@ -1,16 +1,25 @@
-# React + Vite
+# STRADIO Website (`stradio_web`)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+> **Run the Vibe.** — *Movement becomes music.*
 
-Currently, two official plugins are available:
+Conversion & experience website for **STRADIO**, featuring a high-fashion, athletic Warm Studio scrollytelling experience (`#FAF8F5`), a 36-frame lossless WebP stride sequence (`Person_running_naturally`), and Apple-grade fluid typography and micro-interactions.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Active Architecture & Design Plans
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The project follows a strict **Design-First Workflow** approved on Pencil (`pen.dev`):
 
-## Expanding the Oxlint configuration
+1. **Design Architecture:** [`design-plans/02-apple-design-redesign-architecture.md`](design-plans/02-apple-design-redesign-architecture.md) — 1:1 visual breakdown of `Making_web_version_868f5dae_2K.jpg` (Desktop) and `Redesigning_page_UI_elements_bb4a02f5_2K.jpg` (Mobile).
+2. **Implementation Plan:** [`plans/011-apple-design-redesign-and-fluid-physics.md`](plans/011-apple-design-redesign-and-fluid-physics.md) — Two-Phase 120vh sticky container, 36-frame WebP canvas rendering, and critically damped Apple spring physics.
+3. **Pencil Prototype:** Active document in Pen Dev (`untitled.pen`) containing Scenes 00 through 04 for both Desktop and Mobile viewports.
+4. **Brand System Tokens:** [`docs/01-brand-system.md`](docs/01-brand-system.md) — Locked hex palette (`Midnight #191923`, `Warm Ivory #FAF8F5`, `Sonic Coral #FF765F`, `Rhythm Violet #A595DB`, `Deep Violet #4B3D8E`) and `Sora` + `Inter` typography.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+---
+
+## Development
+
+```bash
+npm install
+npm run dev -- --host
+```

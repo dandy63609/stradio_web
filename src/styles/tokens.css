@@ -1,0 +1,40 @@
+/* STRADIO Official Brand Identity System Tokens — Warm Studio */
+:root {
+  /* Warm Studio Color Palette - Blended with Cyclorama Background */
+  --stradio-ivory: #F5F5F7;
+  --stradio-sand: #F3F0E5;
+  --stradio-dark: #15151F;
+  --stradio-charcoal: #171918;
+  --stradio-coral: #DE857A;
+  --stradio-rose: #BA617B;
+  --stradio-purple: #8652A4;
+  --stradio-violet: #A273AF;
+  --stradio-border: #BCBDB4;
+  --stradio-rule-grey: #B7B4AB;
+
+  /* Official Brand Gradients */
+  --gradient-brand-accent: linear-gradient(90deg, #DE857A 0%, #A273AF 100%);
+  --gradient-cta-pill: linear-gradient(90deg, #DE857A 0%, #8652A4 100%);
+  --gradient-card-border-01: linear-gradient(180deg, #BA617B 0%, #211D36 100%);
+  --gradient-card-border-02: linear-gradient(180deg, #8652A4 0%, #211D36 100%);
+
+  /* Typography */
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-wordmark: 'Roboto Condensed', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sora: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@keyframes floatIndicator {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate3d(0, 8px, 0);
+    opacity: 0.35;
+  }
+}
+
+.animate-float-indicator {
+  animation: floatIndicator 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
