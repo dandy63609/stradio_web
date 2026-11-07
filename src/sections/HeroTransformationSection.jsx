@@ -159,6 +159,24 @@ function ScrollIndicator({ opacity }) {
 /**
  * Desktop Settled UI View (Screens >= 1024px)
  */
+/**
+ * Official Y Combinator Vector Logo
+ */
+function YCLogo({ className = "w-3.5 h-3.5" }) {
+  return (
+    <svg
+      className={`${className} rounded-[3px] shrink-0 shadow-xs`}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <rect width="24" height="24" rx="4" fill="#FF6600" />
+      <path d="M5 4h3l4 8 4-8h3l-5.5 11v5h-3v-5Z" fill="#FFFFFF" />
+    </svg>
+  );
+}
+
 function DesktopSettledView({ uiProgress, isSettled, onDownloadClick }) {
   return (
     <div
@@ -175,6 +193,14 @@ function DesktopSettledView({ uiProgress, isSettled, onDownloadClick }) {
       {/* Main Hero Pitch (Right Column - 1:1 Figma Layout) */}
       <div className="w-full max-w-[1920px] mx-auto flex-1 flex flex-col justify-center px-4 xl:px-8">
         <div className="ml-auto w-[52%] max-w-[480px] xl:max-w-[560px] flex flex-col gap-2 xl:gap-3.5">
+          {/* Eyebrow Pill: "not backed by YC" (Apple Design Frosted Glass Pill) */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 backdrop-blur-md border border-white/90 ring-1 ring-black/[0.04] shadow-[0_2px_10px_-2px_rgba(21,21,31,0.06)] select-none w-fit transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+            <YCLogo className="w-3.5 h-3.5" />
+            <span className="font-sans font-medium text-[11px] xl:text-[12px] tracking-[0.04em] text-[#15151F]/75">
+              not backed by YC
+            </span>
+          </div>
+
           {/* Headline Lockup: "Run the" / "Vibe." with Gradient Underline */}
           <div className="relative">
             <h1 className="font-display font-black italic text-[#15151F] text-[54px] xl:text-[68px] 2xl:text-[72px] leading-[0.92] tracking-[-0.05em]">
@@ -416,11 +442,12 @@ function MobileSettledView({ uiProgress, isSettled, onDownloadClick }) {
 
       {/* Bottom Floating Cards & Beat Rhythm Connectors */}
       <div className="w-full pb-2">
-        {/* FEATURE CARDS ROW (All 3 cards together) */}
+        {/* FEATURE CARDS ROW (All 3 cards together) + YC Badge */}
         <div
-          className="relative flex items-center justify-center gap-1.5 sm:gap-4 py-2 mb-[0px]"
-          style={{ transform: "translateY(-100px)" }}
+          className="relative flex flex-col items-center justify-center gap-3 py-1 mb-[0px]"
+          style={{ transform: "translateY(-50px)" }}
         >
+          <div className="flex items-center justify-center gap-1.5 sm:gap-4">
           {/* Connector 1 */}
           <div className="hidden sm:flex items-center gap-0.5">
             <div className="w-[2px] h-[2px] rounded-full bg-[#c97b6d]" />
@@ -480,6 +507,15 @@ function MobileSettledView({ uiProgress, isSettled, onDownloadClick }) {
             <div className="w-[2px] h-[2px] rounded-full bg-[#211d36]" />
             <div className="w-[8px] h-[2px] bg-[#211d36]" />
             <div className="w-[2px] h-[2px] rounded-full bg-[#211d36]" />
+          </div>
+          </div>
+
+          {/* Frosted Glass Badge: "not backed by YC" with YC Logo (Mobile) */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 backdrop-blur-md border border-white/90 ring-1 ring-black/[0.04] shadow-[0_2px_8px_-1px_rgba(21,21,31,0.06)] select-none transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+            <YCLogo className="w-3.5 h-3.5" />
+            <span className="font-sans font-medium text-[10px] sm:text-[11px] tracking-[0.04em] text-[#15151F]/75">
+              not backed by YC
+            </span>
           </div>
         </div>
 
